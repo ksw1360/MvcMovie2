@@ -1,4 +1,4 @@
-﻿namespace MvcMovie2.Controllers
+﻿namespace MvcMovie.Controllers
 {
     public interface IActionResult
     {

@@ -1,10 +1,11 @@
-﻿using MvcMovie2.Models;
+﻿using MvcMovie.Models;
+using MvcMovie2.Models;
 using System;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;   // 이게 핵심!
 
-namespace MvcMovie2.Controllers
+namespace MvcMovie.Controllers
 {
     public class HelloWorldController : Controller
     {

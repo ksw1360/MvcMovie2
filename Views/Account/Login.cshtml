@@ -1,0 +1,33 @@
+﻿@model MvcMovie.Models.LoginViewModel
+@{
+    ViewBag.Title = "로그인";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5 pt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-4">
+            <div class="card shadow-lg">
+                <div class="card-header bg-danger text-white text-center">
+                    <h3>내 영화 컬렉션 로그인</h3>
+                </div>
+                <div class="card-body p-5">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="mb-3">
+                            @Html.TextBoxFor(m => m.UserId, new { @class = "form-control form-control-lg", placeholder = "아이디" })
+                        </div>
+                        <div class="mb-3">
+                            @Html.PasswordFor(m => m.Password, new { @class = "form-control form-control-lg", placeholder = "비밀번호" })
+                        </div>
+                        <button type="submit" class="btn btn-danger btn-lg w-100">로그인</button>
+                    }
+                    <div class="text-center mt-3 text-muted">
+                        테스트 계정: <strong>admin / 1234</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -3,43 +3,138 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - MvcMovie</title>
+    <title>@ViewBag.Title - My Movie List</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 
-    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <link href="~/Content/site.css" rel="stylesheet" type="text/css" />
+    <style>
+        body {
+            padding-top: 70px;
+            background: #f8f9fa;
+        }
 
-    <script src="~/Scripts/modernizr-2.8.3.js"></script>
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 1.5rem;
+        }
+
+        footer {
+            margin-top: 50px;
+            padding: 30px 0;
+            text-align: center;
+            color: #666;
+        }
+
+        /* 모달 이쁘게 */
+        .modal-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 0.5rem 0.5rem 0 0;
+        }
+
+        .modal-title {
+            font-weight: 800;
+        }
+
+        .close-btn {
+            color: white;
+            opacity: 0.9;
+        }
+
+        .modal-body p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .highlight {
+            color: #e50914;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+
+    <!-- 네비게이션 바 -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("MvcMovie", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+            <a class="navbar-brand" href="@Url.Action("Index", "Movies")">My Movie List</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="@Url.Action("Index", "Home")">Home</a></li>
+
+                    <!-- About을 모달로 띄우기 -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#aboutModal">About</a>
+                    </li>
+
+                    <li class="nav-item"><a class="nav-link" href="@Url.Action("Contact", "Home")">Contact</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-danger text-white px-4 ms-3" href="@Url.Action("Index", "Movies")">
+                            내 영화 컬렉션
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
-    </div>
+    </nav>
 
     <div class="container body-content">
         @RenderBody()
         <hr />
         <footer>
-            <p>© @DateTime.Now.Year - MvcMovie</p>
+            <p>© @DateTime.Now.Year - My Movie List by <strong>김상우</strong></p>
         </footer>
     </div>
 
-    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
-    <script src="~/Scripts/bootstrap.min.js"></script>
+    <!-- About 모달 팝업 -->
+    <div class="modal fade" id="aboutModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content overflow-hidden rounded-3">
+                <div class="modal-header">
+                    <h2 class="modal-title">
+                        About This App
+                    </h2>
+                    <button type="button" class="btn-close btn-close-white close-btn" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body text-center py-5">
+                    <div class="mb-4">
+                        <h1 class="display-1 fw-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600">
+                            김상우
+                        </h1>
+                        <p class="lead">개발자 & 영화</p>
+                    </div>
+
+                    <div class="row g-4 text-start mt-4">
+                        <div class="col-md-6">
+                            <p><strong>연락처:</strong> <span class="highlight">010-6259-2887</span></p>
+                            <p><strong>제작 용도:</strong> ASP.NET MVC 학습 프로젝트</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>제작일:</strong> @DateTime.Now.ToString("yyyy년 MM월 dd일")</p>
+                            <p><strong>프레임워크:</strong> ASP.NET MVC + Entity Framework</p>
+                        </div>
+                    </div>
+
+                    <div class="mt-5">
+                        <p class="text-muted fs-5">
+                            "내가 가진 영화를 한눈에 보고 싶다"는<br>
+                            단순한 생각에서 시작한 작은 프로젝트.
+                        </p>
+                        <p class="text-success fw-bold fs-4">완성했습니다!</p>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-center bg-light">
+                    <button type="button" class="btn btn-outline-danger btn-lg px-5" data-bs-dismiss="modal">
+                        닫기
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>
