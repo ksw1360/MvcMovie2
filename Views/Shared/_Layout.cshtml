@@ -158,6 +158,11 @@
             </div>
         </div>
     </div>
-
+    @if (TempData["Msg"] != null)
+    {
+        <script>
+            alert('@TempData["Msg"]');
+        </script>
+    }
 </body>
 </html>

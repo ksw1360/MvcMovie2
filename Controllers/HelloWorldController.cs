@@ -1,5 +1,4 @@
-﻿using MvcMovie.Models;
-using MvcMovie2.Models;
+﻿using MvcMovie2.Models;
 using System;
 using System.Linq;
 using System.Web;

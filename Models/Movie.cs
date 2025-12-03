@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace MvcMovie.Models
+namespace MvcMovie2.Models
 {
     [Table("Movie")]  // 테이블 이름 명시 (대소문자 구분 방지)
     public class Movie

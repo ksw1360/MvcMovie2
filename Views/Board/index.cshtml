@@ -56,11 +56,11 @@
             transition: all 0.2s ease;
         }
 
-            .custom-table tbody tr:hover {
+            .custom-table tbody tr.data-row:hover {
                 background-color: rgba(255, 255, 255, 0.08);
                 transform: scale(1.005);
             }
-
+        /* 데이터 줄만 호버 효과 */
         .custom-table td {
             padding: 1.2rem 1rem;
             vertical-align: middle;
@@ -105,13 +105,7 @@
         color: #555;
     }
 
-    .empty-state {
-        text-align: center;
-        padding: 5rem 0;
-        color: #444;
-    }
-
-    /* ★ 모달 스타일 추가 ★ */
+    /* 모달 스타일 */
     .modal-content {
         background-color: #1f1f1f;
         color: #fff;
@@ -149,31 +143,32 @@
         </div>
     </div>
 
-    @if (Model == null || !Model.Any())
-    {
-        <div class="empty-state">
-            <i class="far fa-comments fa-4x mb-4"></i>
-            <p class="fs-5">아직 등록된 게시글이 없습니다.</p>
-            <p class="small">첫 번째 글의 주인공이 되어보세요!</p>
-        </div>
-    }
-    else
-    {
-        <div class="table-responsive">
-            <table class="custom-table">
-                <thead>
+    <div class="table-responsive">
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    <th style="width: 8%">No.</th>
+                    <th class="text-start">Title</th>
+                    <th style="width: 15%">Writer</th>
+                    <th style="width: 15%">Date</th>
+                    <th style="width: 10%">Views</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model == null || !Model.Any())
+                {
                     <tr>
-                        <th style="width: 8%">No.</th>
-                        <th class="text-start">Title</th>
-                        <th style="width: 15%">Writer</th>
-                        <th style="width: 15%">Date</th>
-                        <th style="width: 10%">Views</th>
+                        <td colspan="5" class="text-center py-5">
+                            <i class="far fa-comments fa-3x mb-3 text-secondary"></i>
+                            <p class="text-muted mb-0">아직 등록된 게시글이 없습니다.</p>
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
+                }
+                else
+                {
+                    foreach (var item in Model)
                     {
-                        <tr>
+                        <tr class="data-row">
                             <td class="text-center text-secondary">@item.BoardId</td>
                             <td>
                                 <a href="@Url.Action("Details", new { id = item.BoardId })" class="post-link">
@@ -195,10 +190,11 @@
                             </td>
                         </tr>
                     }
-                </tbody>
-            </table>
-        </div>
-    }
+                }
+            </tbody>
+        </table>
+    </div>
+
 </div>
 
 <div class="modal fade" id="writeModal" tabindex="-1" aria-hidden="true">

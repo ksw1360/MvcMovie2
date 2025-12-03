@@ -1,5 +1,4 @@
-﻿using MvcMovie.Models;
-using MvcMovie2.Models;
+﻿using MvcMovie2.Models;
 using System.Data.Entity;
 using System.Linq;   // FirstOrDefault 쓰려고 추가
 using System.Web.Mvc;

@@ -1,4 +1,4 @@
-﻿using MvcMovie.Models;
+﻿using MvcMovie2;
 using MvcMovie2.Models;
 using System;
 using System.Collections.Generic;
