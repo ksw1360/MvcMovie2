@@ -16,18 +16,11 @@ namespace MvcMovie2.Controllers
         private MovieListContext db = new MovieListContext();
 
         // 1. 게시판 메인 화면 (페이지 들어가자마자 실행됨)
-        [HttpPost]
+        //[HttpPost]
         public ActionResult Index()
         {
-            // DB에 있는 모든 글을 가져와서 -> 번호 역순(최신글 위로)으로 정렬해서 -> 리스트로 만듦
-            var list = db.Boards.OrderByDescending(b => b.BoardId).ToList();
-            if (list == null || list.Count == 0)
-            {
-                TempData["Msg"] = "게시글이 없슈";
-                Debug.WriteLine("게시글이 없슈");
-            }
-            // 뷰(화면)에 데이터를 던져줌 -> 이러면 들어가자마자 바로 뜸!
-            return View(list);
+            //var list = db.Boards.OrderByDescending(b => b.BoardId).ToList();
+            return View(db.Board.OrderByDescending(b => b.BoardId).ToList());
         }
 
         // 2. 글쓰기 저장 (등록 버튼 눌렀을 때 실행됨)
@@ -40,7 +33,7 @@ namespace MvcMovie2.Controllers
                 board.RegDate = DateTime.Now;
                 board.ViewCount = 0;
 
-                db.Boards.Add(board);
+                db.Board.Add(board);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -52,7 +45,7 @@ namespace MvcMovie2.Controllers
         {
             if (id == null) return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
 
-            Board board = db.Boards.Find(id);
+            Board board = db.Board.Find(id);
             if (board == null) return HttpNotFound();
 
             // 조회수 1 증가
@@ -67,7 +60,7 @@ namespace MvcMovie2.Controllers
         public ActionResult Edit(int? id)
         {
             if (id == null) return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
-            Board board = db.Boards.Find(id);
+            Board board = db.Board.Find(id);
             if (board == null) return HttpNotFound();
             return View(board);
         }
@@ -90,10 +83,10 @@ namespace MvcMovie2.Controllers
         public ActionResult Delete(int? id)
         {
             if (id == null) return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
-            Board board = db.Boards.Find(id);
+            Board board = db.Board.Find(id);
             if (board == null) return HttpNotFound();
 
-            db.Boards.Remove(board);
+            db.Board.Remove(board);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

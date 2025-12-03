@@ -19,7 +19,7 @@ namespace MvcMovie2
         {
             // ★ DB가 없거나 모델이 바뀌면 기존 DB를 날리고 새로 만듭니다. (Migration 안 씀)
             //Database.SetInitializer(new DropCreateDatabaseIfModelChanges<MovieListContext>());
-            Database.SetInitializer<MovieListContext>(null);
+            //Database.SetInitializer<MovieListContext>(null);
 
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);

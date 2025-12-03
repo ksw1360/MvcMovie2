@@ -9,7 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Services.Description;
 
-namespace MvcMovie.Controllers
+namespace MvcMovie2.Controllers
 {
     public class MoviesController : Controller   // ← 여기!!! Controller 상속 필수!!
     {
