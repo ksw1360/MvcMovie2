@@ -26,28 +26,33 @@ namespace MvcMovie2.Controllers
 
             if (ModelState.IsValid)
             {
-                //var allUsers = db.LogIns.ToList();
+                var allUsers = db.LogIn.ToList();
 
-                // DB에서 사용자 찾기                
-                var user = db.LogIns.FirstOrDefault(u => u.Id.Trim() == model.UserId.Trim() &&u.Password.Trim() == model.Password.Trim());
-                //var user = db.LogIns.FirstOrDefault(u => u.Id.Trim() == model.UserId.Trim());
-                //var user = db.LogIns.FirstOrDefault(u => u.Id.Trim() == "admin" && u.Password.Trim() == "1234");
-
-                if (user != null)
+                if (allUsers.Count > 0)
                 {
-                    // 로그인 성공!
-                    Session["IsLogin"] = true;
-                    Session["UserId"] = user.Id;
-                    Session["NickName"] = user.NickName ?? "사용자";
+                    // DB에서 사용자 찾기                
+                    var user = db.LogIn.FirstOrDefault(u => u.Id.Trim() == model.UserId.Trim() && u.Password.Trim() == model.Password.Trim());
 
-                    if (Url.IsLocalUrl(returnUrl))
-                        return Redirect(returnUrl);
+                    if (user != null)
+                    {
+                        // 로그인 성공!
+                        Session["IsLogin"] = true;
+                        Session["UserId"] = user.Id;
+                        Session["NickName"] = user.NickName ?? "사용자";
+
+                        if (Url.IsLocalUrl(returnUrl))
+                            return Redirect(returnUrl);
+                        else
+                            return RedirectToAction("Index", "Movies");
+                    }
                     else
-                        return RedirectToAction("Index", "Movies");
+                    {
+                        ModelState.AddModelError("", "아이디 또는 비밀번호가 틀렸습니다.");
+                    }
                 }
                 else
                 {
-                    ModelState.AddModelError("", "아이디 또는 비밀번호가 틀렸습니다.");
+                    ModelState.AddModelError("로그인 유저 없음", "로그인 유저가 없습니다.");
                 }
             }
             return View(model);

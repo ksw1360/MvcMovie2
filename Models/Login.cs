@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema; // ★ 이 줄 필수!
 
+[Table("LogIn")]
 public class LogIn
 {
     [Key]
