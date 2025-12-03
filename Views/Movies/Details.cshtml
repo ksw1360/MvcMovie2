@@ -1,232 +1,273 @@
 ﻿@model MvcMovie.Models.Movie
 
 @{
-    ViewBag.Title = Model.Title + " - 상세정보";
+    ViewBag.Title = Model.Title;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-
 <style>
-    body {
-        background: #ffffff;
-        color: #222;
+    /* 배경 흐림 효과 (선택사항: 포스터 색감 은은하게 깔기) */
+    .backdrop-blur {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        background: #141414; /* 기본 배경 */
+        overflow: hidden;
     }
 
-    .detail-container {
-        max-width: 1200px;
-        margin: 40px auto;
-        padding: 2rem;
+    .backdrop-img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: blur(80px) brightness(0.3); /* 배경 흐리게 & 어둡게 */
+        opacity: 0.5;
+        transform: scale(1.1);
+    }
+
+    /* 포스터 스타일 */
+    .poster-container {
+        position: relative;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.5);
     }
 
     .poster-big {
         width: 100%;
-        max-width: 380px;
-        border-radius: 12px;
-        box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-        border: 1px solid #e0e0e0;
+        height: auto;
+        display: block;
     }
 
     .no-poster {
-        width: 380px;
-        height: 560px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        border-radius: 12px;
+        width: 100%;
+        aspect-ratio: 2/3;
+        background-color: #222;
         display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
-        color: white;
-        font-size: 2.2rem;
-        font-weight: 700;
-        text-align: center;
-        padding: 20px;
-        box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-    }
-
-    .title-main {
-        font-size: 3rem;
-        font-weight: 800;
-        color: #111;
-        margin-bottom: 0.5rem;
-    }
-
-    .title-sub {
-        font-size: 1.4rem;
         color: #555;
-        margin-bottom: 1.5rem;
+        font-size: 1.2rem;
     }
 
-    .rating-big {
+    /* 텍스트 스타일 */
+    .movie-title {
+        font-size: 3.5rem;
+        font-weight: 800;
+        color: #fff;
+        margin-bottom: 0.5rem;
+        letter-spacing: -1px;
+        line-height: 1.1;
+    }
+
+    .movie-meta {
+        color: #b3b3b3;
+        font-size: 1.1rem;
+        margin-bottom: 2rem;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .meta-divider {
+        width: 4px;
+        height: 4px;
+        background-color: #666;
+        border-radius: 50%;
+    }
+
+    /* 평점 강조 */
+    .rating-badge {
         display: inline-flex;
         align-items: center;
-        gap: 8px;
-        background: #222;
-        color: white;
-        padding: 10px 24px;
-        border-radius: 50px;
-        font-size: 1.4rem;
-        font-weight: bold;
+        gap: 6px;
+        color: #46d369; /* 넷플릭스 매치율 색상 느낌 */
+        font-weight: 700;
+        font-size: 1.2rem;
     }
 
+    /* 줄거리 */
+    .plot-section {
+        font-size: 1.15rem;
+        line-height: 1.7;
+        color: #e5e5e5;
+        margin-bottom: 3rem;
+        max-width: 800px;
+    }
+
+    /* 정보 그리드 (박스 제거, 텍스트만 깔끔하게) */
     .info-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-        gap: 1.5rem;
-        margin: 2.5rem 0;
-    }
-
-    .info-item {
-        background: #f8f9fa;
-        padding: 1.2rem 1.5rem;
-        border-radius: 10px;
-        border-left: 4px solid #0066cc;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 2rem;
+        margin-bottom: 3rem;
+        border-top: 1px solid rgba(255,255,255,0.1);
+        padding-top: 2rem;
     }
 
     .info-label {
-        font-weight: 700;
-        color: #0066cc;
-        font-size: 0.95rem;
-        margin-bottom: 0.5rem;
+        color: #777;
+        font-size: 0.9rem;
+        margin-bottom: 4px;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
     }
 
     .info-value {
-        font-size: 1.1rem;
-        color: #333;
+        color: #fff;
+        font-size: 1.05rem;
     }
 
-    .plot {
-        background: #f8f9fa;
-        padding: 1.8rem;
-        border-radius: 12px;
-        line-height: 1.8;
-        font-size: 1.1rem;
-        border-left: 4px solid #28a745;
-    }
-
-    .btn-group .btn {
-        border-radius: 8px;
-        font-weight: 600;
-        padding: 0.75rem 1.5rem;
-    }
-
-    .btn-back {
-        background: #666;
-        color: white;
-    }
-
-    .btn-edit {
-        background: #0066cc;
-        color: white;
-    }
-
-    .btn-delete {
-        background: #dc3545;
-        color: white;
+    /* 버튼 스타일 */
+    .action-bar {
+        display: flex;
+        gap: 15px;
+        margin-top: 2rem;
     }
 </style>
 
-<div class="detail-container">
-    <div class="row g-5">
-        <!-- 포스터 -->
-        <div class="col-lg-4 text-center">
-            @if (!string.IsNullOrEmpty(Model.PosterURL))
-            {
-                <img src="@Model.PosterURL" class="poster-big" alt="@Model.Title"
-                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                <div class="no-poster d-none">
-                    @Model.Title
-                </div>
-            }
-            else
-            {
-                <div class="no-poster">@Model.Title</div>
-            }
+<div class="backdrop-blur">
+    @if (!string.IsNullOrEmpty(Model.PosterURL))
+    {
+        <img src="@Model.PosterURL" class="backdrop-img" alt="">
+    }
+</div>
+
+<div class="container py-5" style="position: relative;">
+    <div class="row gx-lg-5">
+
+        <div class="col-lg-4 mb-5 mb-lg-0">
+            <div class="poster-container">
+                @if (!string.IsNullOrEmpty(Model.PosterURL))
+                {
+                    <img src="@Model.PosterURL" class="poster-big" alt="@Model.Title"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="no-poster" style="display:none;">
+                        <i class="fas fa-film fa-3x mb-3"></i>
+                        <span>No Poster</span>
+                    </div>
+                }
+                else
+                {
+                    <div class="no-poster">
+                        <i class="fas fa-film fa-3x mb-3"></i>
+                        <span>@Model.Title</span>
+                    </div>
+                }
+            </div>
         </div>
 
-        <!-- 상세 정보 -->
         <div class="col-lg-8">
-            <h1 class="title-main">@Model.Title</h1>
-            <p class="title-sub">
-                @if (!string.IsNullOrEmpty(Model.Director))
-                {
-                    <span>@Model.Director 감독</span>
-                }
+            <h1 class="movie-title">@Model.Title</h1>
+
+            <div class="movie-meta">
                 @if (Model.Year.HasValue)
                 {
-                    <span> • @Model.Year</span>
+                    <span>@Model.Year</span>
+                    <span class="meta-divider"></span>
                 }
-            </p>
 
-            @if (Model.Rating.HasValue)
-            {
-                <div class="rating-big">
-                    <i class="fas fa-star text-warning"></i> @Model.Rating / 10
-                </div>
-            }
-
-            <div class="info-grid">
-                <div class="info-item">
-                    <div class="info-label">장르</div>
-                    <div class="info-value">@(Model.Genre ?? "미정")</div>
-                </div>
-                <div class="info-item">
-                    <div class="info-label">주연</div>
-                    <div class="info-value">@(Model.LeadActor ?? "미정")</div>
-                </div>
-                <div class="info-item">
-                    <div class="info-label">상영시간</div>
-                    <div class="info-value">@(Model.Runtime.HasValue ? Model.Runtime + "분" : "미정")</div>
-                </div>
-                <div class="info-item">
-                    <div class="info-label">개봉일</div>
-                    <div class="info-value">@(Model.ReleaseDate.HasValue ? Model.ReleaseDate.Value.ToString("yyyy년 MM월 dd일") : "미정")</div>
-                </div>
-                <div class="info-item">
-                    <div class="info-label">국가</div>
-                    <div class="info-value">@(Model.Country ?? "미정")</div>
-                </div>
-                <div class="info-item">
-                    <div class="info-label">언어</div>
-                    <div class="info-value">@(Model.Language ?? "미정")</div>
-                </div>
-                @if (Model.Budget.HasValue || Model.Revenue.HasValue)
+                @if (!string.IsNullOrEmpty(Model.Director))
                 {
-                    <div class="info-item">
-                        <div class="info-label">제작비 / 수익</div>
-                        <div class="info-value">
-                            @(Model.Budget.HasValue ? "$" + string.Format("{0:N0}", Model.Budget) : "미정")<br>
-                            @(Model.Revenue.HasValue ? "$" + string.Format("{0:N0}", Model.Revenue) : "미정")
-                        </div>
+                    <span>@Model.Director</span>
+                    <span class="meta-divider"></span>
+                }
+
+                @if (Model.Runtime.HasValue)
+                {
+                    <span>@Model.Runtime 분</span>
+                }
+            </div>
+
+            <div class="mb-4 d-flex align-items-center gap-3">
+                @if (Model.Rating.HasValue)
+                {
+                    <div class="rating-badge">
+                        <i class="fas fa-star"></i> @Model.Rating
                     </div>
                 }
-                <div class="info-item">
-                    <div class="info-label">파일 크기</div>
-                    <div class="info-value">
-                        @(Model.Size.HasValue ? ((double)Model.Size / 1024 / 1024 / 1024).ToString("F1") + " GB" : "미정")
-                    </div>
-                </div>
+
+                @if (!string.IsNullOrEmpty(Model.Genre))
+                {
+                    <span class="badge border border-secondary text-light fw-normal px-3 py-2 bg-transparent">
+                        @Model.Genre
+                    </span>
+                }
             </div>
 
             @if (!string.IsNullOrEmpty(Model.Plot))
             {
-                <h3 class="mt-5 mb-3" style="color:#28a745; font-weight:700;">줄거리</h3>
-                <div class="plot">@Model.Plot</div>
+                <div class="plot-section">
+                    @Model.Plot
+                </div>
             }
 
-            <!-- 버튼 영역만 교체하세요 -->
-            <div class="mt-5 btn-group btn-group-lg" role="group">
-                <a href="@Url.Action("Index")" class="btn btn-link text-dark fw-semibold me-4">
-                    ← 목록으로
-                </a>
-                <a href="@Url.Action("Edit", new { id = Model.ID })" class="btn btn-link text-primary fw-semibold me-4">
-                    수정하기
-                </a>
-                <a href="@Url.Action("Delete", new { id = Model.ID })" class="btn btn-link text-danger fw-semibold"
-                   onclick="return confirm('정말 삭제하시겠습니까?');">
-                    삭제하기
-                </a>
+            <div class="info-grid">
+                <div>
+                    <div class="info-label">주연 배우</div>
+                    <div class="info-value">@(Model.LeadActor ?? "-")</div>
+                </div>
+                <div>
+                    <div class="info-label">개봉일</div>
+                    <div class="info-value">@(Model.ReleaseDate.HasValue ? Model.ReleaseDate.Value.ToString("yyyy.MM.dd") : "-")</div>
+                </div>
+                <div>
+                    <div class="info-label">국가</div>
+                    <div class="info-value">@(Model.Country ?? "-")</div>
+                </div>
+                <div>
+                    <div class="info-label">언어</div>
+                    <div class="info-value">@(Model.Language ?? "-")</div>
+                </div>
+                @if (Model.Budget.HasValue)
+                {
+                    <div>
+                        <div class="info-label">제작비</div>
+                        <div class="info-value">$@string.Format("{0:N0}", Model.Budget)</div>
+                    </div>
+                }
+                @if (Model.Revenue.HasValue)
+                {
+                    <div>
+                        <div class="info-label">수익</div>
+                        <div class="info-value">$@string.Format("{0:N0}", Model.Revenue)</div>
+                    </div>
+                }
+                @if (Model.Size.HasValue)
+                {
+                    <div>
+                        <div class="info-label">파일 크기</div>
+                        <div class="info-value text-info">
+                            <i class="fas fa-hdd me-1"></i>
+                            @((double)Model.Size / 1024 / 1024 / 1024).ToString("F2") GB
+                        </div>
+                    </div>
+                }
             </div>
+
+            <div class="action-bar pt-3">
+                <a href="@Url.Action("Index")" class="btn btn-outline-secondary px-4">
+                    <i class="fas fa-arrow-left me-2"></i>목록
+                </a>
+
+                <div class="ms-auto d-flex gap-2">
+                    <a href="@Url.Action("Edit", new { id = Model.ID })" class="btn btn-outline-light px-4">
+                        <i class="fas fa-pen me-2"></i>수정
+                    </a>
+                    <a href="@Url.Action("Delete", new { id = Model.ID })" class="btn btn-outline-danger px-4"
+                       onclick="return confirm('정말 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.');">
+                        <i class="fas fa-trash me-2"></i>삭제
+                    </a>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
