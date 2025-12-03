@@ -251,6 +251,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Board.cs" />
     <Compile Include="Models\Login.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\Movie.cs" />
@@ -308,8 +309,11 @@
     <Content Include="Scripts\bootstrap.bundle.js.map" />
     <Content Include="Scripts\jquery-3.7.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.7.1.min.map" />
-    <Content Include="Views\Login.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Movies\About.cshtml" />
+    <Content Include="Views\Movies\Create.cshtml" />
+    <Content Include="Views\Movies\Edit.cshtml" />
+    <Content Include="Views\Movies\Board.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

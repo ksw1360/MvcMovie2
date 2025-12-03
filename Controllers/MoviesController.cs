@@ -156,6 +156,11 @@ namespace MvcMovie.Controllers
             var about = new About();
             return View(about);
         }
+
+        public ActionResult Board()
+        {
+            return View();
+        }
     }
 }
 
