@@ -214,7 +214,7 @@
     <Content Include="Bundle.config" />
     <Content Include="Site.Mobile.Master" />
     <Content Include="Views\web.config" />
-    <Content Include="Views\HelloWorld\Index.cshtml" />
+    <Content Include="Views\Movies\Index.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\HelloWorld\Welcome.cshtml" />
     <Content Include="Views\Movies\Details.cshtml" />
@@ -238,6 +238,7 @@
       <DependentUpon>Contact.aspx</DependentUpon>
     </Compile>
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BoardController.cs" />
     <Compile Include="Controllers\HelloWorldController.cs" />
     <Compile Include="Controllers\IActionResult.cs" />
     <Compile Include="Controllers\MoviesController.cs" />
@@ -281,6 +282,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Board\" />
     <Folder Include="Views\Home\" />
   </ItemGroup>
   <ItemGroup>
