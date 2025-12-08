@@ -57,5 +57,8 @@ namespace MvcMovie2.Models
 
         [DataType(DataType.DateTime)]
         public DateTime UpdatedAt { get; set; } = DateTime.Now;
+
+        // ▼▼▼ 이거 추가하세요 ▼▼▼
+        public string Downloads { get; set; }
     }
 }

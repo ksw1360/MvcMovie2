@@ -13,9 +13,9 @@
         transition: transform 0.3s ease;
     }
 
-    .movie-item:hover {
-        transform: translateY(-5px); /* 살짝 위로 뜸 */
-    }
+        .movie-item:hover {
+            transform: translateY(-5px); /* 살짝 위로 뜸 */
+        }
 
     /* 포스터 컨테이너 */
     .poster-wrapper {
@@ -82,7 +82,7 @@
         color: #ffd700; /* 금색 별 */
         margin-right: 4px;
     }
-    
+
     /* 헤더 스타일 */
     .page-header {
         display: flex;
@@ -95,13 +95,18 @@
 </style>
 
 <div class="container py-4">
-    
+
     <div class="page-header">
         <div>
             <h2 class="fw-bold mb-0">Collections</h2>
             <p class="text-muted small mb-0">총 @Model.Count()편의 영화</p>
         </div>
-        <div>
+
+        <div class="d-flex gap-2">
+            <a href="/Downloads/app-debug.apk" class="btn btn-dark btn-sm" download>
+                <i class="fab fa-android me-1 text-success"></i> 앱 다운로드
+            </a>
+
             <a href="/Movies/Create" class="btn btn-minimal btn-sm">
                 <i class="fas fa-plus me-1"></i> 영화 추가
             </a>
@@ -123,11 +128,11 @@
                 <div class="col">
                     <div class="movie-item">
                         <a href="/Movies/Details/@movie.ID" class="text-decoration-none">
-                            
+
                             <div class="poster-wrapper">
                                 @if (!string.IsNullOrEmpty(movie.PosterURL))
                                 {
-                                    <img src="@movie.PosterURL" class="poster-img" alt="@movie.Title" 
+                                    <img src="@movie.PosterURL" class="poster-img" alt="@movie.Title"
                                          onerror="this.onerror=null; this.src=''; this.parentElement.innerHTML='<div class=\'no-poster\'><i class=\'fas fa-image fa-2x mb-2\'></i><span>No Image</span></div>';">
                                 }
                                 else
@@ -141,7 +146,7 @@
 
                             <div class="movie-info">
                                 <h5 class="movie-title" title="@movie.Title">@movie.Title</h5>
-                                
+
                                 <div class="movie-meta">
                                     <span>
                                         @if (movie.Year.HasValue)
